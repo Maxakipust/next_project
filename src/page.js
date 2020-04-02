@@ -6,7 +6,6 @@ import Legs from "./pages/legs";
 
 export default function Page(){
 
-
     let [page, setPage] = React.useState("main");
     let [portAvailability, setPortAvailability] = React.useState(null);
     let [legs, setLegs] = React.useState(null);

@@ -6,29 +6,25 @@ export default class Main extends React.Component{
         if(this.props.portAvailability) {
             return (
                 <div>
+                    <button onClick={(e) => {
+                        this.props.setPage("portAvailability")
+                    }}>Set Port Availability</button>
                     <table>
                         <th>
-                            <td>Time</td>
-                            <td>Value</td>
+                            <td>Times</td>
                         </th>
                         {
-                            this.props.portAvailability.timeEpocs.map((time, index) => {
+                            this.props.portAvailability.map((time) => {
                                 return (
                                     <tr>
                                         <td>
                                             {time.format('LT')}
-                                        </td>
-                                        <td>
-                                            {this.props.portAvailability.values[index]}
                                         </td>
                                     </tr>
                                 )
                             }, [])
                         }
                     </table>
-                    <button onClick={(e) => {
-                        this.props.setPage("portAvailability")
-                    }}>Set Port Availability</button>
                 </div>
             )
         }else {
