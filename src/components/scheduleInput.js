@@ -25,12 +25,18 @@ class ScheduleInput extends React.Component {
         timeEpocs[row] = moment(value, "LT");
         timeStrings[row] = timeEpocs[row].format("LT");
         this.setState({timeEpocs, timeStrings});
-        console.log(timeEpocs[row]);
+        this.callback();
     }
 
     setValue(row, value){
         let values = this.state.values;
+        values[row] = value;
         this.setState({values});
+        this.callback();
+    }
+
+    callback(){
+        this.props.callback(this.state.timeEpocs, this.state.values);
     }
 
     addRow(){
@@ -39,11 +45,25 @@ class ScheduleInput extends React.Component {
 
     removeRow(){
         let {timeEpocs, timeStrings, values, rows} = this.state;
-        timeEpocs[rows] = 0;
-        timeStrings[rows] = "";
-        values[rows] = undefined;
+        timeEpocs.pop();
+        timeStrings.pop();
+        values.pop();
         rows-=1;
-        this.setState({timeEpocs, timeStrings, rows});
+        this.setState({timeEpocs, timeStrings, values, rows});
+        this.callback();
+    }
+
+    random(){
+        let {timeEpocs, timeStrings, values} = this.state;
+        for(let i = 0; i<this.state.rows; i++){
+            let hour = Math.round(Math.random()*23);
+            let minute = Math.round(Math.random()*59);
+            timeEpocs[i] = moment(hour +':'+minute, 'h:mm');
+            timeStrings[i] = timeEpocs[i].format("LT");
+            values[i] = Math.round(Math.random()*10*100)/100;
+        }
+        this.setState({timeEpocs, timeStrings, values});
+        this.callback();
     }
 
     render() {
@@ -68,13 +88,13 @@ class ScheduleInput extends React.Component {
                         onChange={(e)=>{
                             this.setValue(row, e.target.value);
                         }}
-                        placeholder="Value"
+                        placeholder={this.props.valuePlaceHolder?this.props.valuePlaceHolder: "value"}
                     />
                 </div>
             )
         }
-        ret.push(<button onClick={this.addRow.bind(this)}>Add</button>);
-        ret.push(<button onClick={this.removeRow.bind(this)}>Remove</button> )
+        ret.push(<div><button onClick={this.random.bind(this)}>Random</button></div>);
+        ret.push(<div><button onClick={this.addRow.bind(this)}>Add</button><button onClick={this.removeRow.bind(this)}>Remove</button> </div>);
         return <div>{ret}</div>;
     }
 }
