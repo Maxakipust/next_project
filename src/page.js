@@ -22,25 +22,29 @@ export default function Page(){
             let sessionDeliveryTime = sessionStorage.getItem("deliveryTime");
             if(sessionPortAvailability){
                 let tempPortAvailability = JSON.parse(sessionPortAvailability);
-                tempPortAvailability = tempPortAvailability.map((timeStr)=>{
-                    return moment(timeStr);
-                }, []);
-                setPortAvailability(tempPortAvailability);
+                if(tempPortAvailability){
+                    tempPortAvailability = tempPortAvailability.map((timeStr)=>{
+                        return moment(timeStr);
+                    }, []);
+                    setPortAvailability(tempPortAvailability);
+                }
             }
             if(sessionLegs){
                 let tempLegs = JSON.parse(sessionLegs);
-                tempLegs.forEach((leg, index)=>{
-                    tempLegs[index].traffic.times = tempLegs[index].traffic.times.map((timeString)=>{
-                        return moment(timeString);
-                    }, []);
-                    tempLegs[index].waitTime.times = tempLegs[index].waitTime.times.map((timeString)=>{
-                        return moment(timeString);
-                    }, []);
-                    tempLegs[index].pricePerMile.times = tempLegs[index].pricePerMile.times.map((timeString)=>{
-                        return moment(timeString);
-                    }, []);
-                });
-                setLegs(tempLegs);
+                if(tempLegs){
+                    tempLegs.forEach((leg, index)=>{
+                        tempLegs[index].traffic.times = tempLegs[index].traffic.times.map((timeString)=>{
+                            return moment(timeString);
+                        }, []);
+                        tempLegs[index].waitTime.times = tempLegs[index].waitTime.times.map((timeString)=>{
+                            return moment(timeString);
+                        }, []);
+                        tempLegs[index].pricePerMile.times = tempLegs[index].pricePerMile.times.map((timeString)=>{
+                            return moment(timeString);
+                        }, []);
+                    });
+                    setLegs(tempLegs);
+                }
             }
             if(sessionDeliveryTime){
                 setDeliveryTime(moment(JSON.parse(sessionDeliveryTime)));

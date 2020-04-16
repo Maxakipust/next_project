@@ -14,7 +14,7 @@ export default class Legs extends React.Component{
         if(this.props.legs){
             legs = this.props.legs;
         }else{
-            for(let i = 0; i<5; i++){
+            for(let i = 0; i<6; i++){
                 legs.push({
                     traffic:{
                         times:[],
